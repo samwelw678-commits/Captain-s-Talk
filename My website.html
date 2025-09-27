@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MOTIVATIONAL SPEAKER - CAPTAIN'S TALK</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+      gap: 15px;
+    }
+
+    header button {
+      background: linear-gradient(135deg, #ff6ec4, #7873f5);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 110, 196, 0.5);
+    }
+
+    header button:hover {
+      transform: scale(1.05);
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      max-width: 900px;
+      padding: 40px 30px;
+      margin-top: 120px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+      text-align: center;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1em;
+      color: #ffd700;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    button {
+      background: linear-gradient(135deg, #ff6ec4, #7873f5);
+      border: none;
+      border-radius: 15px;
+      padding: 15px 25px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      margin: 15px;
+      width: 220px;
+      box-shadow: 0 5px 15px rgba(255, 110, 196, 0.6);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(255, 110, 196, 0.9);
+    }
+
+    .return-btn {
+      background: #ffd700;
+      color: #000;
+      padding: 12px 30px;
+      margin-top: 30px;
+      transition: background-color 0.3s ease;
+    }
+
+    .return-btn:hover {
+      background: #e6c200;
+    }
+
+    .service-item {
+      font-size: 1.3rem;
+      color: #fffacd;
+      margin-bottom: 15px;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .payment-btn {
+      background: linear-gradient(135deg, #4caf50, #81c784);
+      width: 220px;
+      margin: 15px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    a {
+      color: #ffd700;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Form styles for payment flow */
+    .payment-flow input {
+      padding: 12px;
+      font-size: 1.1rem;
+      width: 240px;
+      border-radius: 10px;
+      border: none;
+      margin: 15px 0;
+      text-align: center;
+      outline: none;
+    }
+
+    .payment-flow label {
+      display: block;
+      font-weight: 600;
+      margin-top: 20px;
+      color: #ffd700;
+    }
+
+    .message {
+      margin-top: 30px;
+      font-size: 1.3rem;
+      color: #90ee90;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER NAVIGATION -->
+  <header>
+    <div class="nav-left">
+      <button onclick="showPage('menuPage')">About</button>
+      <button onclick="showPage('podcastPage')">Podcast</button>
+    </div>
+    <div class="nav-right">
+      <button onclick="alert('Sign In clicked')">Sign In</button>
+      <button onclick="alert('Log In clicked')">Log In</button><!-- Add this inside <body> near the end, outside the container -->
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h2 style="color:#ffd700; margin-bottom:20px;">Log In</h2>
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <input type="email" id="loginEmail" placeholder="Enter your email" required autocomplete="username" />
+      <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password" />
+      <button type="submit" class="login-btn">Log In</button>
+      <button type="button" class="cancel-btn" onclick="closeLoginModal()">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  /* Modal background */
+  .modal {
+    position: fixed;
+    z-index: 1500; /* above header */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Modal content box */
+  .modal-content {
+    background: rgba(0,0,0,0.9);
+    padding: 30px 40px;
+    border-radius: 15px;
+    width: 320px;
+    box-shadow: 0 0 20px #ff69b4;
+    text-align: center;
+  }
+
+  /* Inputs stacked vertically */
+  #loginForm input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+  }
+
+  /* Buttons */
+  #loginForm button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  .login-btn {
+    background: linear-gradient(135deg, #4caf50, #81c784);
+    color: white;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.6);
+    transition: background-color 0.3s ease;
+  }
+
+  .login-btn:hover {
+    background: linear-gradient(135deg, #388e3c, #4caf50);
+  }
+
+  .cancel-btn {
+    background: #ff1744;
+    color: white;
+    margin-top: 8px;
+    box-shadow: 0 5px 15px rgba(255, 23, 68, 0.6);
+    transition: background-color 0.3s ease;
+  }
+
+  .cancel-btn:hover {
+    background: #d50000;
+  }
+</style>
+
+<script>
+  // Show login modal on Log In button click
+  document.querySelector('header .nav-right button:nth-child(2)').onclick = function () {
+    showLoginModal();
+  };
+
+  function showLoginModal() {
+    document.getElementById('loginModal').style.display = 'flex';
+    document.getElementById('loginEmail').focus();
+  }
+
+  function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+    // Clear inputs for next time
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+  }
+
+  function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    // Simple validation check (email required and password non-empty)
+    if (!email || !password) {
+      alert('Please enter both email and password.');
+      return;
+    }
+
+    // Here you would do real login (API call or auth logic)
+    alert(`Logging in with:\nEmail: ${email}\nPassword: ${'*'.repeat(password.length)}`);
+
+    closeLoginModal();
+  }
+</script>
+
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+    <h1>CAPTAIN'S TALK</h1>
+
+    <!-- Start Page -->
+    <section id="startPage" class="page active">
+      <button onclick="showPage('menuPage')">Get Start</button>
+    </section>
+
+    <!-- Menu Page -->
+    <section id="menuPage" class="page">
+      <img 
+        src="c:\Users\DELL\Pictures\High school\LUM_3966.jpg" 
+        alt="Your Photo" 
+        style="width:180px; height:180px; border-radius:50%; border:5px solid #ffd700; object-fit: cover; box-shadow: 0 4px 15px #ff69b4; margin-bottom: 20px;"
+      />
+
+      <div style="max-width: 700px; margin: 0 auto 25px; font-size: 1.1rem; line-height: 1.6; color: #faf0e6;">
+        <h2 style="color:#ffd700; margin-bottom: 10px;">About Me</h2>
+        <p>
+          I am a motivational speaker with a passion for inspiring people to achieve their dreams.
+          With over 10 months of experience, I have helped hundreds of individuals unlock their potential
+          and live their best lives. My mission is to empower you with the tools and mindset to succeed.
+        </p>
+      </div>
+
+      <div style="color: #fffacd; font-size: 1.2rem; margin-bottom: 20px;">
+        <p>Email: <a href="mailto:samwelwafula37@gmail.com">samwelwafula37@gmail.com</a></p>
+        <p>Phone: <a href="tel:+254743937982">+254 743 937 982</a></p>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <a href="https://facebook.com/yourprofile" target="_blank">Facebook</a> |
+        <a href="https://twitter.com/yourprofile" target="_blank">Twitter</a> |
+        <a href="https://instagram.com/yourprofile" target="_blank">Instagram</a> |
+        <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+      </div>
+
+      <button onclick="showPage('servicesPage')">Our Services</button>
+      <button onclick="showPage('orderPage')">Make Your Order</button>
+      <button class="return-btn" onclick="showPage('startPage')"> Previous </button>
+    </section>
+
+    <!-- Services Page -->
+    <section id="servicesPage" class="page">
+      <div class="service-item">• One-on-one Coaching - $2/hour - Duration: 1 hour</div>
+      <div class="service-item">• Group Workshop - $77/session - Duration: 3 hours</div>
+      <div class="service-item">• Keynote Speech - $117/event - Duration: 45 minutes</div>
+      <button class="return-btn" onclick="showPage('menuPage')"> Previous </button>
+    </section>
+
+    <!-- Order Page -->
+    <section id="orderPage" class="page">
+      <h2 style="color:#ffd700;">Choose Mode of Payment</h2>
+      <button class="payment-btn" onclick="startPaymentFlow('Mpesa')">Mpesa</button>
+      <button class="payment-btn" onclick="startPaymentFlow('Airtel Money')">Airtel Money</button>
+      <button class="return-btn" onclick="showPage('menuPage')"> Previous </button>
+    </section>
+
+    <!-- Payment Flow Page -->
+    <section id="paymentFlowPage" class="page">
+      <h2 style="color:#ffd700;">Payment - <span id="paymentMethodName"></span></h2>
+
+      <div id="paymentStepPhone" class="payment-flow">
+        <label for="phoneInput">Enter your phone number (max 13 digits):</label>
+        <input
+          type="tel"
+          id="phoneInput"
+          maxlength="13"
+          placeholder="+2547XXXXXXXX"
+          pattern="[0-9+]+"
+          autofocus
+        />
+        <br />
+        <button onclick="submitPhone()">Next</button>
+        <button class="return-btn" onclick="cancelPayment()">Cancel</button>
+      </div>
+
+      <div id="paymentStepPin" class="payment-flow" style="display:none;">
+        <label for="pinInput">Enter your 4-digit PIN:</label>
+        <input
+          type="password"
+          id="pinInput"
+          maxlength="4"
+          placeholder="••••"
+          pattern="\d{4}"
+        />
+        <br />
+        <button onclick="submitPin()">Submit</button>
+        <button class="return-btn" onclick="cancelPayment()">Cancel</button>
+      </div>
+
+      <div id="paymentConfirmation" class="message" style="display:none;">
+        Request received, being processed. You will receive a confirmation shortly.
+      </div>
+    </section>
+
+    <!-- Podcast Page -->
+    <section id="podcastPage" class="page">
+      <h2 style="color:#ffd700;">Podcast Coming Soon!</h2>
+      <p>Stay tuned for our latest podcast episodes where we share motivational stories, interviews, and more.</p>
+      <button class="return-btn" onclick="showPage('startPage')"> Back to Home </button>
+    </section>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    let selectedPaymentMethod = '';
+    let confirmationTimeout = null;
+
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active'));
+      const target = document.getElementById(pageId);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      // Clear any running timeout if navigating away from paymentConfirmation page
+      if (pageId !== 'paymentFlowPage' && confirmationTimeout) {
+        clearTimeout(confirmationTimeout);
+        confirmationTimeout = null;
+      }
+    }
+
+    function startPaymentFlow(method) {
+      selectedPaymentMethod = method;
+      document.getElementById('paymentMethodName').textContent = method;
+      // Reset all steps
+      document.getElementById('paymentStepPhone').style.display = 'block';
+      document.getElementById('paymentStepPin').style.display = 'none';
+      document.getElementById('paymentConfirmation').style.display = 'none';
+
+      // Clear inputs
+      document.getElementById('phoneInput').value = '';
+      document.getElementById('pinInput').value = '';
+
+      showPage('paymentFlowPage');
+      // Focus on phone input
+      setTimeout(() => document.getElementById('phoneInput').focus(), 100);
+    }
+
+    function submitPhone() {
+      const phone = document.getElementById('phoneInput').value.trim();
+
+      // Validate phone: must be digits or plus, max 13 chars
+      const phoneRegex = /^[+]?[0-9]{6,13}$/;
+      if (!phoneRegex.test(phone)) {
+        alert('Please enter a valid phone number with up to 13 digits (numbers and optional +).');
+        document.getElementById('phoneInput').focus();
+        return;
+      }
+
+      // If valid, proceed to PIN step
+      document.getElementById('paymentStepPhone').style.display = 'none';
+      document.getElementById('paymentStepPin').style.display = 'block';
+      document.getElementById('pinInput').value = '';
+      document.getElementById('pinInput').focus();
+    }
+
+    function submitPin() {
+      const pin = document.getElementById('pinInput').value.trim();
+
+      // Validate PIN: exactly 4 digits
+      const pinRegex = /^\d{4}$/;
+      if (!pinRegex.test(pin)) {
+        alert('Please enter a valid 4-digit PIN.');
+        document.getElementById('pinInput').focus();
+        return;
+      }
+
+      // Show confirmation message
+      document.getElementById('paymentStepPin').style.display = 'none';
+      document.getElementById('paymentConfirmation').style.display = 'block';
+
+      // Automatically go back to menu page after 10 seconds
+      confirmationTimeout = setTimeout(() => {
+        confirmationTimeout = null;
+        showPage('menuPage');
+      }, 10000);
+    }
+
+    function cancelPayment() {
+      // Clear timeout if any
+      if (confirmationTimeout) {
+        clearTimeout(confirmationTimeout);
+        confirmationTimeout = null;
+      }
+      // Go back to order page
+      showPage('orderPage');
+    }
+  </script>
+</body>
+</html>
